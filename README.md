@@ -20,4 +20,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
 this Project is a free course from Udemy "https://www.udemy.com/course/create-a-tiny-web-app-with-vue-3/" 
-But the here i have Used The Composition API 
+But  here i have Used The Composition API 
