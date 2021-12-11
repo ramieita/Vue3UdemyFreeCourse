@@ -1,4 +1,4 @@
-# cosyapp
+# Tiny Vue js 3 App
 
 ## Project setup
 ```
