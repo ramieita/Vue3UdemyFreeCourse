@@ -1,26 +1,83 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <component :is="Screens[pos]"
+               :qustion="UserQuestion"
+               :result="UserResult"
+               @goto="hGoto"
+               @UserQuestion="handleUserQuestion"
+               @showResult="ShowResult"
+               @startOver="handleStartOver">
+    </component>
+
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import initial from "./components/initial";
+import confirm from "./components/confirm";
+import result from "./components/result";
+import {ref} from "vue";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    initial, confirm, result
+
+  },
+  setup() {
+    let UserQuestion = ref()
+    let UserResult = ref()
+    let Results = ref(['yes', 'no', 'Maybe', 'sure..try again'])
+    let Screens = ['initial', 'confirm', 'result']
+    let pos = ref(0)
+    let hGoto = (position) => {
+      pos.value = position
+    }
+    let handleUserQuestion = (question) => {
+      UserQuestion.value = question
+
+    }
+    let getRandomValue = () => {
+      return Results.value[Math.floor(Math.random() * Results.value.length)]
+    }
+    let GenrateResults = () => {
+      let rand = getRandomValue();
+      if (rand !== ' ') {
+        while (rand.value === Results.value) {
+          rand = getRandomValue();
+        }
+      }
+
+      UserResult.value = rand
+    }
+    let ShowResult = () => {
+      GenrateResults()
+    }
+    let handleStartOver = () => {
+      pos.value = 0
+      UserResult.value = ' '
+      UserQuestion.value = ' '
+
+
+    }
+
+    return {
+      Screens,
+      pos,
+      hGoto,
+      UserQuestion,
+      handleUserQuestion,
+      UserResult,
+      Results,
+      ShowResult,
+      GenrateResults,
+      getRandomValue,
+      handleStartOver
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import "assets/style.css";
 </style>
